@@ -23,8 +23,7 @@ if __name__ == "__main__":
 
     #Your code goes here
     exclude = set(string.punctuation)
-    s = ''.join(ch for ch in s if ch not in exclude)
-
+    
     sentences = sentences.map(lambda x: x.lower()) \
                          .map(lambda x: ''.join(ch for ch in x if ch not in exclude)) \
                          .map(lambda x: x.strip())
