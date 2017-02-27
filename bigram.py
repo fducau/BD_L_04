@@ -3,11 +3,13 @@ from __future__ import print_function
 import sys
 from operator import add
 from pyspark import SparkContext
+import string
 
 def bigrams_map(sentence):
     words = sentence.split(" ")
     N = len(words)
     return [((words[i], words[i+1]),1) for i in range(N-1)]
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -21,10 +23,14 @@ if __name__ == "__main__":
 
     #Your code goes here
     sentences = sentences.map(lambda x: x.lower()) \
+                         .map(lambda x: x.translate(None, string.punctuation)) \
                          .map(lambda x: x.strip())
 
     bigrams = sentences.flatMap(bigrams_map)
-    bigrams = bigrams.reduceByKey(lambda x, y: x+y)
+    bigrams = sc.parallelize(bigrams)
+    bigrams = bigrams.reduceByKey(lambda x, y: x + y)
+    # Sort by value
+    bigrams = bigrams.srotBy(lambda x: x[1])
 
     bigrams.saveAsTextFile("bc.out")
 
