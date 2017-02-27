@@ -6,7 +6,8 @@ from pyspark import SparkContext
 
 def bigrams_from_sentence(sentence):
     words = sentence.split(" ")
-    return [(words[i], words[i+1] for i in range(len(words)-1))]
+    N = len(words)
+    return [(words[i], words[i+1]) for i in range(N-1)]
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
