@@ -21,18 +21,20 @@ if __name__ == "__main__":
                      .map(lambda x: " ".join(x)) \
                      .flatMap(lambda x: x.split("."))
 
-    #
+    # Create a exclusion set for punctuation characters
     exclude = set(string.punctuation)
     
-    sentences = sentences.map(lambda x: x.lower()) \
-                         .map(lambda x: ''.join(ch for ch in x if ch not in exclude)) \
+    # Convert everything to lowercase
+    sentences = sentences.map(lambda x: x.lower())
+    # Remove punctuations
+    sentences = sentences.map(lambda x: ''.join(ch for ch in x if ch not in exclude)) \
                          .map(lambda x: x.strip())
 
     bigrams = sentences.flatMap(bigrams_map)
 
     bigrams = bigrams.reduceByKey(lambda x, y: x + y)
     # Sort by value
-    bigrams = bigrams.sortBy(lambda x: x[1], ascending=False).take(100)
+    bigrams = bigrams.sortBy(lambda x: x[1], ascending=False).take(100).glom()
 
     bigrams.saveAsTextFile("bc.out")
 
