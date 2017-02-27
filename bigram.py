@@ -21,7 +21,7 @@ if __name__ == "__main__":
                      .map(lambda x: " ".join(x)) \
                      .flatMap(lambda x: x.split("."))
 
-    #Your code goes here
+
     exclude = set(string.punctuation)
     
     sentences = sentences.map(lambda x: x.lower()) \
@@ -32,8 +32,7 @@ if __name__ == "__main__":
     # bigrams = sc.parallelize(bigrams)
     bigrams = bigrams.reduceByKey(lambda x, y: x + y)
     # Sort by value
-    bigrams = bigrams.takeOrdered(100, key=lambda x: x[1], ascending=False).take(100)
-
+    bigrams = bigrams.sortBy(100, key=lambda x: x[1], ascending=False).take(100)
 
     bigrams.saveAsTextFile("bc.out")
 
