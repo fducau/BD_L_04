@@ -6,10 +6,10 @@ from pyspark import SparkContext
 import string
 
 def bigrams_map(sentence):
-    # Maps a sentence to keys/value pairs with format ((word1, word2), 1)
+    # Maps a sentence to keys/value pairs with format ('word1 word2', 1)
     words = sentence.split(" ")
     N = len(words)
-    return [('{1} {2}'.format(words[i], words[i + 1]), 1) for i in range(N - 1)]
+    return [('{0} {1}'.format(words[i], words[i + 1]), 1) for i in range(N - 1)]
 
 
 if __name__ == "__main__":
