@@ -22,10 +22,11 @@ if __name__ == "__main__":
                      .flatMap(lambda x: x.split("."))
 
     #Your code goes here
-    trans = string.maketrans('','')
+    exclude = set(string.punctuation)
+    s = ''.join(ch for ch in s if ch not in exclude)
 
     sentences = sentences.map(lambda x: x.lower()) \
-                         .map(lambda x: x.translate(trans, string.punctuation)) \
+                         .map(lambda x: ''.join(ch for ch in x if ch not in exclude)) \
                          .map(lambda x: x.strip())
 
     bigrams = sentences.flatMap(bigrams_map)
