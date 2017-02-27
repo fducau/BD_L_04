@@ -29,13 +29,14 @@ if __name__ == "__main__":
     # Remove punctuation symbols and blank spaces
     sentences = sentences.map(lambda x: ''.join(ch for ch in x if ch not in exclude)) \
                          .map(lambda x: x.strip())
-
+    # Create bigrams
     bigrams = sentences.flatMap(bigrams_map)
-
+    # Reduce job
     bigrams = bigrams.reduceByKey(lambda x, y: x + y)
-    # Sort by value
-    bigrams = bigrams.sortBy(lambda x: x[1], ascending=False).take(100)
-    bigrams = sc.parallelize(bigrams)
+    # Sort by value and get the top 100 (take returns a list)
+    bigrams_list = bigrams.sortBy(lambda x: x[1], ascending=False).take(100)
+    # Convert list to RDD again
+    bigrams = sc.parallelize(bigrams_list)
 
     bigrams.saveAsTextFile("bc.out")
 
