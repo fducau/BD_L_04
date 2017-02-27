@@ -27,7 +27,7 @@ if __name__ == "__main__":
                          .map(lambda x: x.strip())
 
     bigrams = sentences.flatMap(bigrams_map)
-    bigrams = sc.parallelize(bigrams)
+    # bigrams = sc.parallelize(bigrams)
     bigrams = bigrams.reduceByKey(lambda x, y: x + y)
     # Sort by value
     bigrams = bigrams.srotBy(lambda x: x[1])
