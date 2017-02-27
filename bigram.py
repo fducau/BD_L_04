@@ -12,12 +12,12 @@ if __name__ == "__main__":
     sc = SparkContext()
     lines = sc.textFile(sys.argv[1], 1)
     sentences = lines.glom() \
-                  .map(lambda x: " ".join(x)) \
-                  .flatMap(lambda x: x.split("."))
+                     .map(lambda x: " ".join(x)) \
+                     .flatMap(lambda x: x.split("."))
 
+    counts.saveAsTextFile("bc.out")
     #Your code goes here
-
-
+    # sentences = sentences.map(lambda x: x.lower())
 
 
     sc.stop()
