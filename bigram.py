@@ -23,7 +23,7 @@ if __name__ == "__main__":
     sentences = sentences.map(lambda x: x.lower()) \
                          .map(lambda x: x.strip())
 
-    bigrams = sentences.flatMap(bigrams_from_sentence)
+    bigrams = sentences.flatMap(bigrams_map)
     bigrams = bigrams.reduceByKey(lambda x, y: x+y)
 
     bigrams.saveAsTextFile("bc.out")
