@@ -30,7 +30,7 @@ if __name__ == "__main__":
     # bigrams = sc.parallelize(bigrams)
     bigrams = bigrams.reduceByKey(lambda x, y: x + y)
     # Sort by value
-    bigrams = bigrams.srotBy(lambda x: x[1])
+    bigrams = bigrams.sortBy(lambda x: x[1])
 
     bigrams.saveAsTextFile("bc.out")
 
