@@ -23,10 +23,10 @@ if __name__ == "__main__":
 
     # Create a exclusion set for punctuation characters
     exclude = set(string.punctuation)
-    
+
     # Convert everything to lowercase
     sentences = sentences.map(lambda x: x.lower())
-    # Remove punctuations
+    # Remove punctuation symbols and blank spaces
     sentences = sentences.map(lambda x: ''.join(ch for ch in x if ch not in exclude)) \
                          .map(lambda x: x.strip())
 
@@ -34,7 +34,8 @@ if __name__ == "__main__":
 
     bigrams = bigrams.reduceByKey(lambda x, y: x + y)
     # Sort by value
-    bigrams = bigrams.sortBy(lambda x: x[1], ascending=False).take(100).glom()
+    bigrams = bigrams.sortBy(lambda x: x[1], ascending=False).take(100)
+    bigrams = sc.parallelize(bigrams)
 
     bigrams.saveAsTextFile("bc.out")
 
