@@ -15,9 +15,9 @@ if __name__ == "__main__":
                      .map(lambda x: " ".join(x)) \
                      .flatMap(lambda x: x.split("."))
 
-    sentences.saveAsTextFile("bc.out")
+    
     #Your code goes here
-    # sentences = sentences.map(lambda x: x.lower())
-
+    sentences = sentences.map(lambda x: x.lower())
+    sentences.saveAsTextFile("bc.out")
 
     sc.stop()
